@@ -13,6 +13,7 @@ class signin extends StatefulWidget{
 }
 class signinState extends State<signin>{
   String? mail;
+  String? pseudo;
   String? prenom;
   String? nom;
   String? password;
@@ -67,6 +68,21 @@ class signinState extends State<signin>{
         TextField(
           onChanged: (String text){
             setState(() {
+              pseudo = text;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: "Entrez votre pseudo",
+              icon: Icon(Icons.person, size: 25, color: Colors.blue),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15)
+              )
+          ),
+        ),
+        SizedBox(height: 15,),
+        TextField(
+          onChanged: (String text){
+            setState(() {
               mail = text;
             });
           },
@@ -97,7 +113,7 @@ class signinState extends State<signin>{
         SizedBox(height: 15,),
         ElevatedButton(
             onPressed: (){
-              FirestoreHelper().CreationUser(mail: mail, password: password, prenom: prenom, nom: nom);
+              FirestoreHelper().CreationUser(mail: mail, password: password, prenom: prenom, pseudo: pseudo, nom: nom);
             },
 
             child: Text("Je m'inscris")

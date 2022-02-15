@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_flutter_app/controller/all_morceaux.dart';
 import 'package:my_first_flutter_app/view/MyDrawer.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+
+import '../controller/character.dart';
 
 class dashboard extends StatefulWidget{
 
@@ -15,6 +19,7 @@ class dashboard extends StatefulWidget{
 
 }
 class dashboardState extends State<dashboard>{
+  int currentIndex = 1;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -26,55 +31,40 @@ class dashboardState extends State<dashboard>{
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: bodyPage(),
+        child: bodyPage(currentIndex),
+      ),
+      bottomNavigationBar: DotNavigationBar(
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Colors.cyan,
+        onTap: (int newValue){
+          setState(() {
+            currentIndex = newValue;
+          });
+        },
+        currentIndex: currentIndex,
+        items: [
+          DotNavigationBarItem(
+            icon: Icon(Icons.music_note_sharp),
+          ),
+          DotNavigationBarItem(
+            icon: Icon(Icons.person),
+          ),
+          DotNavigationBarItem(
+            icon: Icon(Icons.map_sharp),
+          ),
+        ],
       ),
     );
   }
 
-  Widget bodyPage(){
-    return Column(
-      children: [
-        Container(
-          height: 150,
-          width: 150,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: AssetImage("bob.jpg"),
-                  fit: BoxFit.fill
-              )
-          ),
-        ),
-        TextField(
-          onChanged: (String text){
-            setState(() {
-            });
-          },
-          decoration: InputDecoration(
-            hintText: "${widget.mail}",
-              icon: Icon(Icons.mail, size: 25, color: Colors.blue),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15)
-              )
-          ),
-        ),
-        SizedBox(height: 15,),
-        TextField(
-          obscureText: true,
-          onChanged: (String text){
-            setState(() {
-            });
-          },
-          decoration: InputDecoration(
-              hintText: "•••••••",
-              icon: Icon(Icons.lock, size: 25, color: Colors.blue),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15)
-              )
-          ),
-        ),
-      ],
-    );
+  Widget bodyPage(int value){
+    switch(value){
+      case 0 : return allMorceaux();
+      case 1 : return character();
+      case 2 : return Text("Afficher une carte");
+      default: return Text("Aucune info");
+    }
   }
 
 }
